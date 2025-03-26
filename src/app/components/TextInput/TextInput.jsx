@@ -8,6 +8,7 @@ export const TextInput = ({ text, setText }) => {
         className="textarea w-[600px] h-[200px] p-2 border border-black rounded-md"
         value={text}
         onChange={(e) => setText(e.target.value)}
+        data-testid="textarea"
       />
     </div>
   );

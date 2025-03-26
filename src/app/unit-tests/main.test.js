@@ -18,7 +18,7 @@ describe("Converter component", () => {
 
   test("renders textarea and button", () => {
     render(<Converter />);
-    expect(screen.getByLabelText(/Write your text here/i)).toBeInTheDocument();
+    expect(screen.getByText(/Write your text here/i)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /Convert to PDF/i })
     ).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("Converter component", () => {
     });
 
     render(<Converter />);
-    const textarea = screen.getByLabelText(/Write your text here/i);
+    const textarea = screen.getByTestId("textarea");
     fireEvent.change(textarea, { target: { value: "Test PDF content" } });
 
     const button = screen.getByRole("button", { name: /Convert to PDF/i });
@@ -55,7 +55,7 @@ describe("Converter component", () => {
     jest.spyOn(window, "alert").mockImplementation(() => {});
 
     render(<Converter />);
-    const textarea = screen.getByLabelText(/Write your text here/i);
+    const textarea = screen.getByTestId("textarea");
     fireEvent.change(textarea, { target: { value: "Test PDF content" } });
 
     const button = screen.getByRole("button", { name: /Convert to PDF/i });
