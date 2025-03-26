@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Converter } from "../components/converter";
+import { Converter } from "../components/Converter";
 
 global.fetch = jest.fn();
 

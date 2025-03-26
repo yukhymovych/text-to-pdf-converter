@@ -1,5 +1,13 @@
 "use client";
-import React, { useState, useRef } from "react";
+
+import React, { useState, useRef, useEffect } from "react";
+import {
+  TextInput,
+  HistoryList,
+  PDFViewer,
+  ClearHistoryButton,
+  GeneratePDFButton,
+} from "../components";
 
 export const Converter = () => {
   const [text, setText] = useState("");
@@ -9,6 +17,13 @@ export const Converter = () => {
   const iframeRef = useRef(null);
 
   const API_KEY = "78684310-850d-427a-8432-4a6487f6dbc4";
+
+  useEffect(() => {
+    const storedHistory = JSON.parse(localStorage.getItem("pdfHistory"));
+    if (storedHistory) {
+      setHistory(storedHistory);
+    }
+  }, []);
 
   const generatePdf = async () => {
     if (!text.trim()) {
@@ -77,60 +92,19 @@ export const Converter = () => {
   return (
     <div className="container">
       <div className="inner-wrapper flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center">
-          <h1 className="text-[21px] font-bold mb-[20px]">
-            Text to PDF Converter
-          </h1>
-          <p className="text-[16px] font-medium mb-[5px]">
-            Write your text here
-          </p>
-          <textarea
-            className="textarea w-[600px] h-[200px] p-2 border border-black rounded-md  "
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        </div>
-        <button
-          className="rounded bg-sky-600 py-2 px-4 text-sm text-white hover:bg-sky-500 active:bg-sky-700 mt-4"
-          onClick={generatePdf}
-          disabled={loading}
-        >
-          {loading ? "Generating PDF..." : "Convert to PDF"}
-        </button>
+        <h1 className="text-[21px] font-bold mb-[20px]">
+          Text to PDF Converter
+        </h1>
+        <TextInput text={text} setText={setText} />
+        <GeneratePDFButton generatePdf={generatePdf} loading={loading} />
       </div>
 
-      {history.length > 0 && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold">Conversion History:</h3>
-          <ul className="mt-2 border p-2 rounded bg-gray-100">
-            {history.map((file) => (
-              <li
-                key={file.id}
-                className="p-2 cursor-pointer hover:bg-gray-200 rounded"
-                onClick={() => openPDF(file.url)}
-              >
-                {file.name} -{" "}
-                <span className="text-gray-500 text-xs">{file.timestamp}</span>
-              </li>
-            ))}
-          </ul>
-          <button className="mt-2 text-xs text-red-600" onClick={clearHistory}>
-            Clear History
-          </button>
-        </div>
-      )}
+      <HistoryList history={history} openPDF={openPDF} />
+      <ClearHistoryButton history={history} clearHistory={clearHistory} />
 
-      {PDFUrl && (
-        <iframe
-          ref={iframeRef}
-          src={PDFUrl}
-          width="100%"
-          height="900px"
-          style={{ border: "none", marginTop: "20px" }}
-          role="iframe"
-          data-testid="iframe"
-        />
-      )}
+      <PDFViewer PDFUrl={PDFUrl} />
     </div>
   );
 };
+
+export default Converter;
