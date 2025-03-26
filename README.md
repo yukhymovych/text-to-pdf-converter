@@ -19,8 +19,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Components Overview
 
-# TextInput
-Description:
+### TextInput
+#### Description:
 A component that displays a text input field for users to write text.
 
 Props:
@@ -31,3 +31,16 @@ setText (function): A function to update the text.
 
 Main Actions:
 Handles text input changes and passes the updated text back to the parent component.
+
+### HistoryList
+#### Description:
+A component that displays a list of generated PDFs.
+
+Props:
+
+history (array): An array of history objects, each containing the URL and metadata of a generated PDF.
+
+openPDF (function): A function that opens a selected PDF when clicked.
+
+Main Actions:
+Displays the list of previously generated PDFs and allows users to open any document by clicking on its entry.
